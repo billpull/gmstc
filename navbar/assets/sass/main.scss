@@ -1,0 +1,197 @@
+@import 'reset';
+
+$dropdown-margin: 10px;
+$dropdown-radius: 4px;
+
+/* green bar variables */
+$green-top: #70cfc5;
+$green-btm: #61c2b8;
+
+$green-top-darker: darken($green-top, 10%);
+$green-btm-darker: darken($green-btm, 10%);
+
+$green-border-top: lighten($green-top, 20%);
+$green-border-btm: darken($green-btm, 10%);
+
+/* Mixins */
+@mixin rotate-transform($deg) {
+	-webkit-transform: rotate($deg);
+	-moz-transform: rotate($deg);
+	-o-transform: rotate($deg);
+	-ms-transform: rotate($deg);
+	transform: rotate($deg);
+}
+
+@mixin two-color-gradient-vertical($top, $btm) {
+	background-color: $top; // Old browsers
+	background: -moz-linear-gradient(top, $top 0%, $btm 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$top), color-stop(100%,$btm)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, $top 0%,$btm 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, $top 0%,$btm 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, $top 0%,$btm 100%); /* IE10+ */
+	background: linear-gradient(to bottom, $top 0%,$btm 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$top', endColorstr='$btm',GradientType=0 ); /* IE6-8 */
+}
+
+@mixin drop-down-arrow() {
+	content: '\003E';
+	display: inline-block;
+	position: absolute;
+	font-weight: bold;
+	font-size: 16px;
+	margin-left: 10px;
+	margin-top: 2px;
+}
+
+/* global */
+* {
+	font-family: 'Helvetica Neue', Helvetica, arial;
+}
+
+body {
+	background-color: #f5f5f5;
+}
+
+/* container */
+.container {
+	width: 90%;
+	margin: 0 auto;
+}
+
+/* list-style */
+.list-unstyled {
+	list-style:none;
+	list-style-type: none;
+}
+
+.list-inline > li {
+	display: block;
+	float: left;
+}
+
+/* navbar styles */
+.navbar {
+	@include two-color-gradient-vertical($green-top, $green-btm);
+	border: 1px solid $green-border-btm;
+	border-top: 0;
+	width: 100%;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	clear:both;
+	min-height:40px;
+	box-shadow: 0 3px 3px #ccc;
+}
+
+.navbar .nav {
+	@extend .list-unstyled;
+	@extend .list-inline;
+	display: block;
+}
+
+.navbar .nav > li{
+	line-height: 32px;
+	min-height: 41px;
+	border-right: 1px solid darken($green-top, 11%);
+	border-left: 1px solid lighten($green-top, 11%);
+}
+
+.navbar > .nav > li > a {
+	padding: 0 40px;
+	text-decoration: none;
+	float:none;
+	color: white;
+	font-size: 12px;
+	transition: box-shadow 1s;
+	text-shadow: -1px -1px 0 darken($green-top, 11%);
+	background: transparent;
+}
+
+.navbar > .nav > li:first-child {
+	border-left: 0;
+}
+
+.navbar > .nav > li:last-child {
+	border-right: 0;
+}
+
+.navbar > .nav > li:hover {
+	@include two-color-gradient-vertical($green-top-darker, $green-btm-darker);
+	box-shadow: 0 3px 10px darken($green-btm-darker, 5%) inset;
+}
+
+.dropdown > a {
+	padding: 5px 30px !important;
+	margin: 0 $dropdown-margin;
+	border: 1px solid transparent;
+}
+
+.dropdown:hover > a {
+	background: #fff !important;
+	border: 1px solid $green-btm-darker;
+	border-top-left-radius: $dropdown-radius;
+	border-top-right-radius: $dropdown-radius;
+	border-bottom: 0;
+	color: $green-top-darker !important;
+	text-shadow: none !important;
+}
+
+.dropdown > a:after {
+	@include drop-down-arrow();
+	@include rotate-transform(90deg);
+	color: #518f84;
+	text-shadow: 1px 0 0 lighten($green-top, 10%);
+}
+
+.dropdown:hover > a:after {
+	@include drop-down-arrow();
+	@include rotate-transform(-90deg);
+	color: #777;
+	text-shadow: 1px 0 0 #555 !important;
+}
+
+.subnav {
+	background-color: #fff;
+	border: 1px solid $green-btm-darker;
+	border-top:0;
+	border-bottom-right-radius: $dropdown-radius;
+	border-bottom-left-radius: $dropdown-radius;
+	border-top-right-radius: $dropdown-radius;
+	padding-top: 20px;
+	position: absolute;
+	margin-left: $dropdown-margin;
+	margin-top: -5px;
+	font-size: 12px;
+	box-shadow: 0 3px 5px #ccc;
+	visibility: hidden;
+}
+
+.dropdown:hover > .subnav {
+	visibility: visible;
+}
+
+.subnav > li {
+	float: none;
+}
+
+.subnav > li > a {
+	display: block;
+	padding: 0 60px 0 30px;
+	text-decoration: none;
+	color: $green-top-darker;
+	border: 1px solid transparent;
+	border-right: 0;
+	border-left: 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.subnav > li:last-child > a {
+	border-bottom: 0;
+}
+
+.subnav > li > a:hover {
+	color:#fff;
+	background-color: $green-top-darker;
+	border: 1px solid $green-btm-darker;
+	border-right: 0;
+	border-left: 0;
+}
